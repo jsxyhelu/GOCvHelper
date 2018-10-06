@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////////////
-//åç§°ï¼šGOCVHelper0.7b.cpp
-//åŠŸèƒ½ï¼šå›¾åƒå¤„ç†å’ŒMFCå¢å¼º
-//ä½œè€…ï¼šjsxyhelu(1755311380@qq.com http://jsxyhelu.cnblogs.com)
-//ç»„ç»‡ï¼šGREENOPEN
-//æ—¥æœŸï¼š2017-04-16
+//Ãû³Æ£ºGOCVHelper0.7b.cpp
+//¹¦ÄÜ£ºÍ¼Ïñ´¦ÀíºÍMFCÔöÇ¿
+//×÷Õß£ºjsxyhelu(1755311380@qq.com http://jsxyhelu.cnblogs.com)
+//×éÖ¯£ºGREENOPEN
+//ÈÕÆÚ£º2018-06-26
 /////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include <io.h>
@@ -13,14 +13,16 @@
 #include "opencv/cv.h"
 #include "atlstr.h"
 RNG  rng(12345);
-//2016å¹´1æœˆ26æ—¥GoCvHelperæ·»åŠ string ç›¸å…³æ“ä½œå‡½æ•°åˆ°å…¶ä»–æ“ä½œä¸­
-//2016å¹´1æœˆ28æ—¥10:45:22 GOCVHelperåŸºäºé¢œè‰²ç›´æ–¹å›¾çš„CBIRåˆ°å›¾åƒæ“ä½œä¸­å»
-//2016å¹´8æœˆ12æ—¥08:27:03 æ·»åŠ å…³äºexcelæ“ä½œç›¸å…³å‡½æ•°
-//2017å¹´6æœˆ28æ—¥11:04:35 ä¿®æ”¹ä¸€ä¸ªè½®å»“æ’åºçš„BUG
+#define  DEBUG FALSE
+//2016Äê1ÔÂ26ÈÕGoCvHelperÌí¼Óstring Ïà¹Ø²Ù×÷º¯Êıµ½ÆäËû²Ù×÷ÖĞ
+//2016Äê1ÔÂ28ÈÕ10:45:22 GOCVHelper»ùÓÚÑÕÉ«Ö±·½Í¼µÄCBIRµ½Í¼Ïñ²Ù×÷ÖĞÈ¥
+//2016Äê8ÔÂ12ÈÕ08:27:03 Ìí¼Ó¹ØÓÚexcel²Ù×÷Ïà¹Øº¯Êı
+//2017Äê6ÔÂ28ÈÕ11:04:35 ĞŞ¸ÄÒ»¸öÂÖÀªÅÅĞòµÄBUG
+//2018Äê6ÔÂ26ÈÕ08:50:09 ½â¾öunicodeÎÊÌâ£¬²¢ÇÒÎÄ¼ş¸ÄÃû×ÖÁË£¨×îÖ÷ÒªµÄÎÊÌâÊÇ½«ÏîÄ¿ÉèÖÃÎª Î´ÉèÖÃ£©
 namespace GO{
 
-#pragma region å›¾åƒå¢å¼º
-	//è¯»å–ç°åº¦æˆ–å½©è‰²å›¾ç‰‡åˆ°ç°åº¦
+#pragma region Í¼ÏñÔöÇ¿
+	//¶ÁÈ¡»Ò¶È»ò²ÊÉ«Í¼Æ¬µ½»Ò¶È
 	Mat imread2gray(string path){
 		Mat src = imread(path);
 		Mat srcClone = src.clone();
@@ -29,7 +31,7 @@ namespace GO{
 		return srcClone;
 	}
 
-	//å¸¦æœ‰ä¸Šä¸‹é™çš„threshold
+	//´øÓĞÉÏÏÂÏŞµÄthreshold
 	Mat threshold2(Mat src,int minvalue,int maxvalue){
 		Mat thresh1;
 		Mat thresh2;
@@ -40,7 +42,7 @@ namespace GO{
 		return dst;
 	}
 
-	//è‡ªé€‚åº”é—¨é™çš„cannyç®—æ³• 
+	//×ÔÊÊÓ¦ÃÅÏŞµÄcannyËã·¨ 
     //canny2
 	Mat canny2(Mat src){
 		Mat imagetmp = src.clone();
@@ -69,7 +71,7 @@ namespace GO{
 		double PercentOfPixelsNotEdges = 0.7;                                    
 		size = cvGetSize(dx);                                                    
 		imge = cvCreateImage(size, IPL_DEPTH_32F, 1);                            
-		// è®¡ç®—è¾¹ç¼˜çš„å¼ºåº¦, å¹¶å­˜äºå›¾åƒä¸­                                          
+		// ¼ÆËã±ßÔµµÄÇ¿¶È, ²¢´æÓÚÍ¼ÏñÖĞ                                          
 		float maxv = 0;                                                          
 		for(i = 0; i < size.height; i++ ){                                                                        
 			const short* _dx = (short*)(dx->data.ptr + dx->step*i);          
@@ -83,7 +85,7 @@ namespace GO{
 			*low = 0;                                                        
 			cvReleaseImage( &imge );                                         
 			return;}                                                                        
-		// è®¡ç®—ç›´æ–¹å›¾                                                            
+		// ¼ÆËãÖ±·½Í¼                                                            
 		range_0[1] = maxv;                                                       
 		hist_size = (int)(hist_size > maxv ? maxv:hist_size);                    
 		hist = cvCreateHist(1, &hist_size, CV_HIST_ARRAY, ranges, 1);            
@@ -96,22 +98,22 @@ namespace GO{
 			sum += h[i];                                                     
 			if( sum > total )                                                
 				break; }                                                                        
-		// è®¡ç®—é«˜ä½é—¨é™                                                          
+		// ¼ÆËã¸ßµÍÃÅÏŞ                                                          
 		*high = (i+1) * maxv / hist_size ;                                       
 		*low = *high * 0.4;                                                      
 		cvReleaseImage( &imge );                                                 
 		cvReleaseHist(&hist); }     
 // end of canny2
 
-	//å¡«å……å­”æ´
-    //ä½¿ç”¨ä¾‹å­
+	//Ìî³ä¿×¶´
+    //Ê¹ÓÃÀı×Ó
 	Mat fillHoles(Mat src){
 		Mat dst = getInnerHoles(src);
 		threshold(dst,dst,0,255,THRESH_BINARY_INV);
 		dst = src + dst;
 		return dst;
 	}
-	//è·å¾—å›¾åƒä¸­ç™½è‰²çš„æ¯”ç‡
+	//»ñµÃÍ¼ÏñÖĞ°×É«µÄ±ÈÂÊ
 	float getWhiteRate(Mat src){
 		int iWhiteSum = 0;
 		for (int x =0;x<src.rows;x++){
@@ -122,15 +124,15 @@ namespace GO{
 		}
 		return (float)iWhiteSum/(float)(src.rows*src.cols);
 	}
-	//è·å¾—å†…éƒ¨å­”æ´å›¾åƒ
+	//»ñµÃÄÚ²¿¿×¶´Í¼Ïñ
 	Mat getInnerHoles(Mat src){ 
 		Mat clone = src.clone();
-		srand((unsigned)time(NULL));  // ç”Ÿæˆæ—¶é—´ç§å­
+		srand((unsigned)time(NULL));  // Éú³ÉÊ±¼äÖÖ×Ó
 		float fPreRate = getWhiteRate(clone);
 		float fAftRate = 0;
 		do {
 			clone = src.clone();
-			// x y å¯¹äº cols rows
+			// x y ¶ÔÓÚ cols rows
 			floodFill(clone,Point((int)rand()%src.cols,(int)rand()%src.rows),Scalar(255));
 			fAftRate = getWhiteRate(clone);
 		} while ( fAftRate < 0.6);
@@ -138,25 +140,25 @@ namespace GO{
 	}
    // end of fillHoles
 
-	//é¡¶å¸½å»å…‰å·®,radiusä¸ºæ¨¡æ¿åŠå¾„
+	//¶¥Ã±È¥¹â²î,radiusÎªÄ£°å°ë¾¶
 	Mat moveLightDiff(Mat src,int radius){
 		Mat dst;
 		Mat srcclone = src.clone();
 		Mat mask = Mat::zeros(radius*2,radius*2,CV_8U);
 		circle(mask,Point(radius,radius),radius,Scalar(255),-1);
-		//é¡¶å¸½
+		//¶¥Ã±
 		erode(srcclone,srcclone,mask);
 		dilate(srcclone,srcclone,mask);
 		dst =  src - srcclone;
 		return dst;
 	}
 
-	//å°† DEPTH_8Uå‹äºŒå€¼å›¾åƒè¿›è¡Œç»†åŒ–  ç»å…¸çš„Zhangå¹¶è¡Œå¿«é€Ÿç»†åŒ–ç®—æ³•
-    //ç»†åŒ–ç®—æ³•
+	//½« DEPTH_8UĞÍ¶şÖµÍ¼Ïñ½øĞĞÏ¸»¯  ¾­µäµÄZhang²¢ĞĞ¿ìËÙÏ¸»¯Ëã·¨
+    //Ï¸»¯Ëã·¨
 	void thin(const Mat &src, Mat &dst, const int iterations){
 		const int height =src.rows -1;
 		const int width  =src.cols -1;
-		//æ‹·è´ä¸€ä¸ªæ•°ç»„ç»™å¦ä¸€ä¸ªæ•°ç»„
+		//¿½±´Ò»¸öÊı×é¸øÁíÒ»¸öÊı×é
 		if(src.data != dst.data)
 			src.copyTo(dst);
 		int n = 0,i = 0,j = 0;
@@ -165,8 +167,8 @@ namespace GO{
 		bool isFinished =FALSE;
 		for(n=0; n<iterations; n++){
 			dst.copyTo(tmpImg); 
-			isFinished =FALSE;   //ä¸€æ¬¡ å…ˆè¡Œååˆ—æ‰«æ å¼€å§‹
-			//æ‰«æè¿‡ç¨‹ä¸€ å¼€å§‹
+			isFinished =FALSE;   //Ò»´Î ÏÈĞĞºóÁĞÉ¨Ãè ¿ªÊ¼
+			//É¨Ãè¹ı³ÌÒ» ¿ªÊ¼
 			for(i=1; i<height;  i++) {
 				pU = tmpImg.ptr<uchar>(i-1);
 				pC = tmpImg.ptr<uchar>(i);
@@ -208,9 +210,9 @@ namespace GO{
 						}                    
 					}
 
-				} //æ‰«æè¿‡ç¨‹ä¸€ ç»“æŸ
+				} //É¨Ãè¹ı³ÌÒ» ½áÊø
 				dst.copyTo(tmpImg); 
-				//æ‰«æè¿‡ç¨‹äºŒ å¼€å§‹
+				//É¨Ãè¹ı³Ì¶ş ¿ªÊ¼
 				for(i=1; i<height;  i++){
 					pU = tmpImg.ptr<uchar>(i-1);
 					pC = tmpImg.ptr<uchar>(i);
@@ -252,8 +254,8 @@ namespace GO{
 							}                    
 						}
 					}
-				} //ä¸€æ¬¡ å…ˆè¡Œååˆ—æ‰«æå®Œæˆ          
-				//å¦‚æœåœ¨æ‰«æè¿‡ç¨‹ä¸­æ²¡æœ‰åˆ é™¤ç‚¹ï¼Œåˆ™æå‰é€€å‡º
+				} //Ò»´Î ÏÈĞĞºóÁĞÉ¨ÃèÍê³É          
+				//Èç¹ûÔÚÉ¨Ãè¹ı³ÌÖĞÃ»ÓĞÉ¾³ıµã£¬ÔòÌáÇ°ÍË³ö
 				if(isFinished ==FALSE)
 					break; 
 			}
@@ -261,7 +263,7 @@ namespace GO{
 	}
 // end of thin
 
-	//ä½¿å¾—rectåŒºåŸŸåŠé€æ˜
+	//Ê¹µÃrectÇøÓò°ëÍ¸Ã÷
 	Mat translucence(Mat src,Rect rect,int idepth){
 		Mat dst = src.clone();
 		Mat roi = dst(rect);
@@ -269,7 +271,7 @@ namespace GO{
 		return dst;
 	}
 
-	//ä½¿å¾—rectåŒºåŸŸæ‰“ä¸Šé©¬èµ›å…‹
+	//Ê¹µÃrectÇøÓò´òÉÏÂíÈü¿Ë
 	Mat mosaic(Mat src,Rect rect,int W,int H){
 		Mat dst = src.clone();
 		Mat roi = dst(rect);
@@ -291,7 +293,7 @@ namespace GO{
 	}
 
 
-//åŸºäºé¢œè‰²ç›´æ–¹å›¾çš„è·ç¦»è®¡ç®—
+//»ùÓÚÑÕÉ«Ö±·½Í¼µÄ¾àÀë¼ÆËã
 double GetHsVDistance(Mat src_base,Mat src_test1){
 	Mat   hsv_base;
 	Mat   hsv_test1;
@@ -319,7 +321,7 @@ double GetHsVDistance(Mat src_base,Mat src_test1){
 	double  base_test1  =  compareHist(  hist_base,  hist_test1,  0  );
 	return base_test1;
 }
-// Multiply æ­£ç‰‡å åº•
+// Multiply ÕıÆ¬µşµ×
 void Multiply(Mat& src1, Mat& src2, Mat& dst)
 {
 	for(int index_row=0; index_row<src1.rows; index_row++)
@@ -333,7 +335,7 @@ void Multiply(Mat& src1, Mat& src2, Mat& dst)
 		}
 	}
 }
-// Color_Burn é¢œè‰²åŠ æ·±
+// Color_Burn ÑÕÉ«¼ÓÉî
 void Color_Burn(Mat& src1, Mat& src2, Mat& dst)
 {
 	for(int index_row=0; index_row<src1.rows; index_row++)
@@ -347,7 +349,7 @@ void Color_Burn(Mat& src1, Mat& src2, Mat& dst)
 		}
 	}
 }
-// çº¿æ€§å¢å¼º
+// ÏßĞÔÔöÇ¿
 void Linear_Burn(Mat& src1, Mat& src2, Mat& dst)
 {
 	for(int index_row=0; index_row<src1.rows; index_row++)
@@ -363,12 +365,12 @@ void Linear_Burn(Mat& src1, Mat& src2, Mat& dst)
 }
 
 
-//ç‚¹ä¹˜æ³• elementWiseMultiplication
+//µã³Ë·¨ elementWiseMultiplication
 Mat EWM(Mat m1,Mat m2){
 	Mat dst=m1.mul(m2);
 	return dst;
 }
-//å›¾åƒå±€éƒ¨å¯¹æ¯”åº¦å¢å¼ºç®—æ³•
+//Í¼Ïñ¾Ö²¿¶Ô±È¶ÈÔöÇ¿Ëã·¨
 Mat ACE(Mat src,int C,int n,int MaxCG){
 	Mat meanMask;
 	Mat varMask;
@@ -377,18 +379,18 @@ Mat ACE(Mat src,int C,int n,int MaxCG){
 	Mat dst;
 	Mat tmp;
 	Mat tmp2;
-	blur(src.clone(),meanMask,Size(50,50));//meanMaskä¸ºå±€éƒ¨å‡å€¼ 
+	blur(src.clone(),meanMask,Size(50,50));//meanMaskÎª¾Ö²¿¾ùÖµ 
 	tmp = src - meanMask;  
 	varMask = EWM(tmp,tmp);         
-	blur(varMask,varMask,Size(50,50));    //varMaskä¸ºå±€éƒ¨æ–¹å·®   
-	//æ¢ç®—æˆå±€éƒ¨æ ‡å‡†å·®
+	blur(varMask,varMask,Size(50,50));    //varMaskÎª¾Ö²¿·½²î   
+	//»»Ëã³É¾Ö²¿±ê×¼²î
 	varMask.convertTo(varMask,CV_32F);
 	for (int i=0;i<varMask.rows;i++){
 		for (int j=0;j<varMask.cols;j++){
 			varMask.at<float>(i,j) =  (float)sqrt(varMask.at<float>(i,j));
 		}
 	}
-	meanStdDev(src,meanGlobal,varGlobal); //meanGlobalä¸ºå…¨å±€å‡å€¼ varGlobalä¸ºå…¨å±€æ ‡å‡†å·®
+	meanStdDev(src,meanGlobal,varGlobal); //meanGlobalÎªÈ«¾Ö¾ùÖµ varGlobalÎªÈ«¾Ö±ê×¼²î
 	tmp2 = varGlobal/varMask;
 	for (int i=0;i<tmp2.rows;i++){
 		for (int j=0;j<tmp2.cols;j++){
@@ -400,9 +402,9 @@ Mat ACE(Mat src,int C,int n,int MaxCG){
 	tmp2.convertTo(tmp2,CV_8U);
 	tmp2 = EWM(tmp2,tmp);
 	dst = meanMask + tmp2;
-	imshow("Dæ–¹æ³•",dst);
+	imshow("D·½·¨",dst);
 	dst = meanMask + C*tmp;
-	imshow("Cæ–¹æ³•",dst);
+	imshow("C·½·¨",dst);
 	return dst;
 }
 
@@ -422,17 +424,17 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 	normalize(gray, gray, 0.0, 1.0, NORM_MINMAX, -1);
 	return gray;
 }
-#pragma endregion å›¾åƒå¢å¼º
+#pragma endregion Í¼ÏñÔöÇ¿
 
-#pragma region å›¾åƒå¤„ç†
-	//å¯»æ‰¾æœ€å¤§çš„è½®å»“
+#pragma region Í¼Ïñ´¦Àí
+	//Ñ°ÕÒ×î´óµÄÂÖÀª
 	VP FindBigestContour(Mat src){    
-		int imax = 0; //ä»£è¡¨æœ€å¤§è½®å»“çš„åºå·
-		int imaxcontour = -1; //ä»£è¡¨æœ€å¤§è½®å»“çš„å¤§å°
+		int imax = 0; //´ú±í×î´óÂÖÀªµÄĞòºÅ
+		int imaxcontour = -1; //´ú±í×î´óÂÖÀªµÄ´óĞ¡
 		std::vector<std::vector<Point>>contours;    
 		findContours(src,contours,CV_RETR_LIST,CV_CHAIN_APPROX_SIMPLE);
 		for (int i=0;i<contours.size();i++){
-			int itmp =  contourArea(contours[i]);//è¿™é‡Œé‡‡ç”¨çš„æ˜¯è½®å»“å¤§å°
+			int itmp =  contourArea(contours[i]);//ÕâÀï²ÉÓÃµÄÊÇÂÖÀª´óĞ¡
 			if (imaxcontour < itmp ){
 				imax = i;
 				imaxcontour = itmp;
@@ -440,15 +442,22 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		}
 		return contours[imax];
 	}
-
-	//å¯»æ‰¾å¹¶ç»˜åˆ¶å‡ºå½©è‰²è”é€šåŒºåŸŸ
-	//2017å¹´1æœˆ5æ—¥ ä¿®æ”¹å†’æ³¡æ’åºç“¶é¢ˆã€‚æ—¢ç„¶å«åšconnection2ï¼Œé‚£ä¹ˆåº”è¯¥å°±ä¸åº”è¯¥ç›¸äº’è¦†ç›–.å¦‚æœéœ€è¦è€ƒè™‘æ•ˆç‡çš„è¯ï¼Œå°±åº”è¯¥è®²å†’æ³¡è¿™æ®µæ³¨é‡Šæ‰
+	//Ñ°ÕÒµÚnthµÄÂÖÀª
+	//ith = 0´ú±í×î´ó£¬ith=1 ´ú±íµÚ2¸ö£¬ÒÔ´ËÀàÍÆ
+	bool sortfunction (std::vector<Point> c1,std::vector<Point> c2) { return (contourArea(c1)>contourArea(c2)); }  
+	VP FindnthContour(Mat src,int ith ){    
+		std::vector<std::vector<Point>>contours;    
+		findContours(src,contours,CV_RETR_LIST,CV_CHAIN_APPROX_SIMPLE);
+	    std::sort(contours.begin(),contours.end(),sortfunction);
+		return contours[ith];
+	}
+	//Ñ°ÕÒ²¢»æÖÆ³ö²ÊÉ«ÁªÍ¨ÇøÓò
 	vector<VP> connection2(Mat src,Mat& draw){    
 		draw = Mat::zeros(src.rows,src.cols,CV_8UC3);
 		vector<VP>contours;    
 		findContours(src.clone(),contours,CV_RETR_LIST,CV_CHAIN_APPROX_SIMPLE);
-		//ç”±äºç»™å¤§çš„åŒºåŸŸç€è‰²ä¼šè¦†ç›–å°çš„åŒºåŸŸï¼Œæ‰€ä»¥é¦–å…ˆè¿›è¡Œæ’åºæ“ä½œ
-		//å†’æ³¡æ’åºï¼Œç”±å°åˆ°å¤§æ’åº
+		//ÓÉÓÚ¸ø´óµÄÇøÓò×ÅÉ«»á¸²¸ÇĞ¡µÄÇøÓò£¬ËùÒÔÊ×ÏÈ½øĞĞÅÅĞò²Ù×÷
+		//Ã°ÅİÅÅĞò£¬ÓÉĞ¡µ½´óÅÅĞò
 		VP vptmp;
 		for(int i=1;i<contours.size();i++){
 			for(int j=contours.size()-1;j>=i;j--){
@@ -460,7 +469,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 				}
 			}
 		}
-		//æ‰“å°ç»“æœ
+		//´òÓ¡½á¹û
 		for (int i=contours.size()-1;i>=0;i--){
 			Scalar  color  = Scalar(rng.uniform(0,255),rng.uniform(0,255),rng.uniform(0,255));
 			drawContours(draw,contours,i,color,-1);
@@ -472,7 +481,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		return connection2(src,draw);
 	}
 
-	//æ ¹æ®è½®å»“çš„é¢ç§¯å¤§å°è¿›è¡Œé€‰æ‹©
+	//¸ù¾İÂÖÀªµÄÃæ»ı´óĞ¡½øĞĞÑ¡Ôñ
 	vector<VP>  selectShapeArea(Mat src,Mat& draw,vector<VP> contours,int minvalue,int maxvalue){
 		vector<VP> result_contours;
 		draw = Mat::zeros(src.rows,src.cols,CV_8UC3);
@@ -488,7 +497,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 			Scalar  color  = Scalar(iRandB,iRandG,iRandR);
 			drawContours(draw,result_contours,i,color,-1);
 			char cbuf[100];sprintf_s(cbuf,"%d",i+1);
-			//å¯»æ‰¾æœ€å°è¦†ç›–åœ†,æ±‚å‡ºåœ†å¿ƒã€‚ä½¿ç”¨åè‰²æ‰“å°è½®å»“é¡¹ç›®
+			//Ñ°ÕÒ×îĞ¡¸²¸ÇÔ²,Çó³öÔ²ĞÄ¡£Ê¹ÓÃ·´É«´òÓ¡ÂÖÀªÏîÄ¿
 			float radius;
 			Point2f center;
 			minEnclosingCircle(result_contours[i],center,radius);
@@ -507,7 +516,6 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		return result_contours;
 	}
 
-	//æ ¹æ®è½®å»“çš„åœ†çš„ç‰¹æ€§è¿›è¡Œé€‰æ‹©
 	vector<VP> selectShapeCircularity(Mat src,Mat& draw,vector<VP> contours,float minvalue,float maxvalue){
 		vector<VP> result_contours;
 		draw = Mat::zeros(src.rows,src.cols,CV_8UC3);
@@ -531,12 +539,12 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		}
 		return result_contours;
 	}
-	//è®¡ç®—è½®å»“çš„åœ†çš„ç‰¹æ€§
+	//¼ÆËãÂÖÀªµÄÔ²µÄÌØĞÔ
 	float calculateCircularity(VP contour){
 		Point2f center;
 		float radius = 0;
 		minEnclosingCircle((Mat)contour,center,radius);
-		//ä»¥æœ€å°å¤–æ¥åœ†åŠå¾„ä½œä¸ºæ•°å­¦æœŸæœ›ï¼Œè®¡ç®—è½®å»“ä¸Šå„ç‚¹åˆ°åœ†å¿ƒè·ç¦»çš„æ ‡å‡†å·®
+		//ÒÔ×îĞ¡Íâ½ÓÔ²°ë¾¶×÷ÎªÊıÑ§ÆÚÍû£¬¼ÆËãÂÖÀªÉÏ¸÷µãµ½Ô²ĞÄ¾àÀëµÄ±ê×¼²î
 		float fsum = 0;
 		float fcompare = 0;
 		for (int i=0;i<contour.size();i++){   
@@ -549,13 +557,304 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		return fcompare;
 	}
 
-	//è¿”å›ä¸¤ç‚¹ä¹‹é—´çš„è·ç¦»
+	//·µ»ØÁ½µãÖ®¼äµÄ¾àÀë
 	float getDistance(Point2f f1,Point2f f2)
 	{
 		return sqrt((float)(f1.x - f2.x)*(f1.x - f2.x) + (f1.y -f2.y)*(f1.y- f2.y));
 	}
- 
-	//æŠ•å½±åˆ°xæˆ–Yè½´ä¸Š,ä¸Šæ³¢å½¢ä¸ºvup,ä¸‹æ³¢å½¢ä¸ºvdown,gapä¸ºè¯¯å·®é—´éš”
+	//·µ»Øµãµ½Ö±Ïß£¨Ïß¶Î£©µÄ¾àÀë
+	float GetPointLineDistance(Point2f pointInput,Point2f pa,Point2f pb,Point2f& pointOut)
+	{
+		Point2f p1;
+		Point2f p2;
+		if (pa.x<pb.x)
+		{
+			p1 = pa;
+			p2 = pb;
+		}
+		else
+		{
+			p1 = pb;
+			p2 = pa;
+		}
+		//·ÖÖ§¿¼ÂÇ
+		if (p1.x == p2.x)
+		{
+			pointOut.x = p1.x ;
+			pointOut.y = pointInput.y;
+			return abs(pointInput.x - p1.x);
+		}
+
+		if (p1.y == p2.y)
+		{
+			pointOut.y = p1.y ;
+			pointOut.x = pointInput.x;
+			return abs(pointInput.y - p1.y);
+		}
+
+		float fthea = (p2.y - p1.y)/(p2.x-p1.x);
+		int fMinDistance = 100000;
+		int fMinNum = -1;
+		for (int i=0;i<(int)(p2.x-p1.x);i++)
+		{
+			float fx = p1.x +i;
+			float fy = i*fthea + p1.y;
+			float ftmp =  GO::getDistance(Point2f(fx,fy),pointInput);
+			if (ftmp<fMinDistance)
+			{
+				fMinDistance = ftmp;
+				fMinNum = i;
+			}
+		}
+		//²âÊÔ»­Í¼
+		pointOut.x = p1.x +fMinNum;
+		pointOut.y = fMinNum*fthea + p1.y;
+		return fMinDistance;
+	}
+
+	//»ñµÃ¹¹½¨µÄÖ÷Òª·½Ïò£¬ÔÚÍ¼ÉÏ½øĞĞ±ê»Õ£¬²¢ÇÒ·µ»Ø½Ç¶È½á¹û
+	//×¢Òâ£¬Õâ¸öº¯Êı£¬ÔÚopencvÀïÃæÒÑ¾­²¢Èë±ê×¼¿âÁË
+	double getOrientation(vector<Point> &pts, Mat &img)
+	{
+		//¹¹½¨pcaÊı¾İ¡£ÕâÀï×öµÄÊÇ½«ÂÖÀªµãµÄxºÍy×÷ÎªÁ½¸öÎ¬Ñ¹µ½data_ptsÖĞÈ¥¡£
+		Mat data_pts = Mat(pts.size(), 2, CV_64FC1);//Ê¹ÓÃmatÀ´±£´æÊı¾İ£¬Ò²ÊÇÎªÁËºóÃæpca´¦ÀíĞèÒª
+		for (int i = 0; i < data_pts.rows; ++i)
+		{
+			data_pts.at<double>(i, 0) = pts[i].x;
+			data_pts.at<double>(i, 1) = pts[i].y;
+		}
+		//Ö´ĞĞPCA·ÖÎö
+		PCA pca_analysis(data_pts, Mat(), CV_PCA_DATA_AS_ROW);
+		//»ñµÃ×îÖ÷Òª·ÖÁ¿£¬ÔÚ±¾ÀıÖĞ£¬¶ÔÓ¦µÄ¾ÍÊÇÂÖÀªÖĞµã£¬Ò²ÊÇÍ¼ÏñÖĞµã
+		Point pos = Point(pca_analysis.mean.at<double>(0, 0),pca_analysis.mean.at<double>(0, 1));
+		//´æ´¢ÌØÕ÷ÏòÁ¿ºÍÌØÕ÷Öµ
+		vector<Point2d> eigen_vecs(2);
+		vector<double> eigen_val(2);
+		for (int i = 0; i < 2; ++i)
+		{
+			eigen_vecs[i] = Point2d(pca_analysis.eigenvectors.at<double>(i, 0),pca_analysis.eigenvectors.at<double>(i, 1));
+			eigen_val[i] = pca_analysis.eigenvalues.at<double>(i,0);//×¢Òâ£¬Õâ¸öµØ·½Ô­´úÂëĞ´´íÁË
+		}
+		//ÔÚÂÖÀª/Í¼ÏñÖĞµã»æÖÆĞ¡Ô²
+		circle(img, pos, 3, CV_RGB(255, 0, 255), 2);
+		//¼ÆËã³öÖ±Ïß£¬ÔÚÖ÷Òª·½ÏòÉÏ»æÖÆÖ±Ïß
+		line(img, pos, pos + 0.02 * Point(eigen_vecs[0].x * eigen_val[0], eigen_vecs[0].y * eigen_val[0]) , CV_RGB(255, 255, 0),3);
+		line(img, pos, pos + 0.02 * Point(eigen_vecs[1].x * eigen_val[1], eigen_vecs[1].y * eigen_val[1]) , CV_RGB(0, 255, 255),3);
+		//·µ»Ø½Ç¶È½á¹û
+		return atan2(eigen_vecs[0].y, eigen_vecs[0].x);
+	}
+
+	//¸ù¾İÖĞÏß½«ÂÖÀª·ÖÎª2¸ö²¿·Ö
+	//pts ÂÖÀª
+	//pa pb ÖĞÏßÏß¶Î¶Ëµã
+	//p1 p2 ·ÖÎªÁ½±ßºó×îÔ¶2µã
+	//lenght1,length2 ¶ÔÓ¦¾àÀë
+	//img ÓÃÓÚ»æÍ¼
+	//·µ»Ø ÊÇ·ñ·Ö¸î³É¹¦
+	bool SplitContoursByMiddleLine(vector<Point> &pts,Mat &img,Point pa,Point pb,Point& p1,float& length1,Point& p2,float& length2)
+	{
+		//Ñ°ÕÒÂÖÀªµ½ÖĞÏß(Êµ¼ÊÉÏÊÇÏß¶Î£©µÄ½»µã
+		int isum = 0;
+		Point2f pointOut;
+		//bool bIsCross =false;
+		int iStart = -1;
+		int iEnd = -1;
+		vector<int> vecBorderPoints;
+
+		//½«ÂÖÀª»®·ÖÎªÁ½¸ö²¿·Ö
+		for (int i = 0;i< pts.size();i++)
+		{
+			float f = GetPointLineDistance(pts[i], pa,pb,pointOut);
+			if (DEBUG)
+				{
+					printf("%.1f ",f);
+					//line(img,pa,pb,Scalar(255,0,255),2);
+				}
+				
+			if (f<=5) //ÒòÎªÎÒ¶ÔËùÓĞµÃµ½µÄµã¶Ô½øĞĞÁËÅÅĞò£¬ËùÒÔÕâÀïµÄ f¿ÉÒÔ·Åµ½5
+			{		
+				vecBorderPoints.push_back(i);
+			}
+		}
+
+		//¶ÔËùÓĞ ÂÖÀªºÍ±ßÔµµÄ½»µã ½øĞĞÅÅĞò£¬µÃµ½¾àÀë×îÔ¶µÄµã¶Ô 
+		float fDistance = 0;
+		for (int i = 0 ;i<vecBorderPoints.size();i++)
+		{
+			for (int j = i;j<vecBorderPoints.size();j++) //ÒÑ¾­½øĞĞÅÅĞòÓÅ»¯ÁË
+			{
+				if (getDistance(pts[vecBorderPoints[i]],pts[vecBorderPoints[j]]) > fDistance)
+				{
+					fDistance = getDistance(pts[vecBorderPoints[i]],pts[vecBorderPoints[j]]);
+					iStart = vecBorderPoints[i];
+					iEnd = vecBorderPoints[j];
+				}
+			}
+		}
+		if (-1 == iEnd ) //³öÏÖÎÊÌâÁË£¬½»¸ø±È½Ï·½±ãµÄ·½·¨°É
+			return false;
+		if (iStart > iEnd)
+			swap(iStart,iEnd);
+		if ((iEnd - iStart)<pts.size()/4)
+			return false;//´íÎó¿ØÖÆ»úÖÆ
+		if (DEBUG)
+			{
+				printf("\n\n");
+				circle(img,pts[iStart],5,Scalar(0,255,0),5);
+				circle(img,pts[iEnd],5,Scalar(0,255,0),5);
+			}
+			
+
+		vector<Point> vector1;
+		vector<Point> vector2;
+		for (int i = 0;i<pts.size();i++)
+		{
+			if (i>=iStart && i<=iEnd)
+			{
+				vector1.push_back(pts[i]);
+				if(DEBUG)
+					circle(img,pts[i],3,Scalar(0,0,255));
+			}	
+			else
+			{
+				vector2.push_back(pts[i]);
+				if(DEBUG)
+					circle(img,pts[i],3,Scalar(0,255,255));
+			}
+
+		}
+		//·Ö±ğÔÚÕâÁ½¸öÂÖÀªÀïÃæÕÒµ½½»µã¾àÀë
+		Point pstart = pts[iStart];
+		Point pend   = pts[iEnd];
+		float fmax = -1;int imax = -1;
+		for (int i =0;i<vector1.size();i++)
+		{
+			float f = GetPointLineDistance(vector1[i], pa,pb,pointOut);
+			if (f>fmax) //Ã°Åİ
+			{
+				fmax = f;
+				imax = i;
+			}
+		}
+		if (DEBUG)
+			circle(img,vector1[imax],3,cv::Scalar(255,0,0),2);
+		p1 = vector1[imax];
+		length1 = fmax;
+
+		fmax = -1; imax = -1;
+		for (int i =0;i<vector2.size();i++)
+		{
+			float f = GetPointLineDistance(vector2[i], pa,pb,pointOut);
+			if (f>fmax) //Ã°Åİ
+			{
+				fmax = f;
+				imax = i;
+			}
+		}
+		if (DEBUG)
+			circle(img,vector2[imax],3,cv::Scalar(255,0,0),2);
+		p2 = vector2[imax];
+		length2 = fmax;
+		return true;
+	}
+
+	//»ñµÃÕæÊµµÄ³¤¿í,·µ»ØÖµÎªfalseµÄ»°´ú±íÊ¶±ğ²»³É¹¦
+	bool getRealWidthHeight(vector<Point> &pts,vector<Point> &resultPts, Mat &img,float& flong,float& fshort)
+	{
+		//¹¹½¨pcaÊı¾İ¡£ÕâÀï×öµÄÊÇ½«ÂÖÀªµãµÄxºÍy×÷ÎªÁ½¸öÎ¬Ñ¹µ½data_ptsÖĞÈ¥¡£
+		Mat data_pts = Mat(pts.size(), 2, CV_64FC1);//Ê¹ÓÃmatÀ´±£´æÊı¾İ£¬Ò²ÊÇÎªÁËºóÃæpca´¦ÀíĞèÒª
+		for (int i = 0; i < data_pts.rows; ++i)
+		{
+			data_pts.at<double>(i, 0) = pts[i].x;
+			data_pts.at<double>(i, 1) = pts[i].y;
+		}
+		//Ö´ĞĞPCA·ÖÎö
+		PCA pca_analysis(data_pts, Mat(), CV_PCA_DATA_AS_ROW);
+		//»ñµÃ×îÖ÷Òª·ÖÁ¿£¬ÔÚ±¾ÀıÖĞ£¬¶ÔÓ¦µÄ¾ÍÊÇÂÖÀªÖĞµã£¬Ò²ÊÇÍ¼ÏñÖĞµã
+		Point pos = Point(pca_analysis.mean.at<double>(0, 0),pca_analysis.mean.at<double>(0, 1));
+		//»ñµÃÌØÕ÷ÏòÁ¿ºÍÌØÕ÷Öµ
+		vector<Point2d> eigen_vecs(2);
+		vector<double> eigen_val(2);
+		for (int i = 0; i < 2; ++i)
+		{
+			eigen_vecs[i] = Point2d(pca_analysis.eigenvectors.at<double>(i, 0),pca_analysis.eigenvectors.at<double>(i, 1));
+			eigen_val[i] = pca_analysis.eigenvalues.at<double>(i,0);
+		}
+		if (eigen_vecs[0].x == 0 || abs(eigen_vecs[0].y / eigen_vecs[0].x) >100)//Ò»°ã³öÏÖÔÚÖĞÏßÎª´¹Ö±Çé¿ö£¬Õâ¸öÊ±ºò¿ÉÒÔÖ±½Ó²ÉÓÃ¼òµ¥·½·¨
+			return false;
+		if (eigen_vecs[1].x == 0 || abs(eigen_vecs[1].y / eigen_vecs[1].x) >100)
+			return false;
+		//ÔÚÂÖÀª/Í¼ÏñÖĞµã»æÖÆĞ¡Ô²
+		if (DEBUG)
+			circle(img, pos, 3, CV_RGB(255, 0, 255), 2);
+
+		//»ñµÃ³¤¶ÌÖáºÍÂÖÀªµÄ½»½Óµã 
+		//³¤Öá
+		Point pa = pos-0.04 * Point(eigen_vecs[0].x * eigen_val[0], eigen_vecs[0].y * eigen_val[0]); 
+		Point pb = pos + 0.04 * Point(eigen_vecs[0].x * eigen_val[0], eigen_vecs[0].y * eigen_val[0]) ;
+		//¶ÌÖá
+		Point pc = pos- 0.2 * Point(eigen_vecs[1].x * eigen_val[1], eigen_vecs[1].y * eigen_val[1]);
+		Point pd = pos + 0.2 * Point(eigen_vecs[1].x * eigen_val[1], eigen_vecs[1].y * eigen_val[1]);
+		//ÕâÀï×öÁË¹ı³¤µÄ±éÀú£¬¿Ï¶¨Òª¶Ô±ß½ç½øĞĞÏŞ¶¨
+
+		//¼ÆËã³öÖ±Ïß£¬ÔÚ³¤¶ÌÖáÉÏ»æÖÆÖ±Ïß
+		if (DEBUG)
+		{
+			line(img, pa,pb , CV_RGB(255, 255, 0));
+			line(img, pc,pd, CV_RGB(0, 255, 255));
+		}
+
+		//½« ÂÖÀª°´ÕÕ³¤¶ÌÖá½øĞĞ»®·Ö.ÕâÀï_p[]µÃµ½µÄÊÇ4¸ö±ß½ç×îÔ¶µã£»¶ø_lengthÔòÊÇ³¤¶È
+		Point _p[4]; 
+		float _length[4] = {-1,-1,-1,-1};
+		if (!SplitContoursByMiddleLine(pts,img,pa,pb,_p[0],_length[0],_p[1],_length[1]))
+			return false;
+		if (!SplitContoursByMiddleLine(pts,img,pc,pd,_p[2],_length[2],_p[3],_length[3]))
+			return false;
+
+		//¿ªÊ¼»ñµÃ½áÂÛ
+		if (eigen_vecs[0].x == 0 || eigen_vecs[1].x == 0)//³ıÊıÎª0
+			return false;
+		float k_long = eigen_vecs[0].y /eigen_vecs[0].x;
+		float k_short = eigen_vecs[1].y /eigen_vecs[1].x;
+		if (k_long == k_short)//ÕâÖÖÇé¿ö²»Ó¦¸Ã³öÏÖ
+			return false;
+
+		//·µ»Ø³¤¶È
+		if (_length[0]<0 || _length[1]<0 || _length[2]<0 || _length[3]<0)
+			return false;
+		fshort = _length[0]+_length[1];
+		flong  = _length[2]+_length[3];
+		//Í¨¹ı½âÎö·½·¨£¬»ñµÃ×îºó½á¹û 
+		Point p[4]; 
+		p[0].x = (k_long * _p[0].x   - k_short * _p[2].x  +  _p[2].y - _p[0].y)  / (k_long - k_short);
+		p[0].y = (p[0].x - _p[0].x)*k_long + _p[0].y;
+		p[1].x = (k_long * _p[0].x   - k_short * _p[3].x  +  _p[3].y - _p[0].y)  / (k_long - k_short);
+		p[1].y = (p[1].x - _p[0].x)*k_long + _p[0].y;
+		p[2].x = (k_long * _p[1].x   - k_short * _p[2].x  +  _p[2].y - _p[1].y)  / (k_long - k_short);
+		p[2].y = (p[2].x - _p[1].x)*k_long + _p[1].y;
+		p[3].x = (k_long * _p[1].x   - k_short * _p[3].x  +  _p[3].y - _p[1].y)  / (k_long - k_short);
+		p[3].y = (p[3].x - _p[1].x)*k_long + _p[1].y;
+
+		//¼òµ¥ÅÅĞò
+		if (p[1].x < p[0].x)
+			swap(p[1],p[0]);
+		if (p[3].x < p[2].x)
+			swap(p[3],p[2]);
+		//»æÍ¼
+		for (int i = 0;i<4;i++)
+			resultPts.push_back(p[i]);
+		
+		//line(img,p[0],p[1],CV_RGB(0, 255, 255), 5);
+		//line(img,p[0],p[2],CV_RGB(0, 255, 255), 5);
+		//line(img,p[3],p[1],CV_RGB(0, 255, 255), 5);
+		//line(img,p[3],p[2],CV_RGB(0, 255, 255), 5);
+
+		return true;
+
+	}
+
+	//Í¶Ó°µ½x»òYÖáÉÏ,ÉÏ²¨ĞÎÎªvup,ÏÂ²¨ĞÎÎªvdown,gapÎªÎó²î¼ä¸ô
 	void projection2(Mat src,vector<int>& vup,vector<int>& vdown,int direction,int gap){
 		Mat tmp = src.clone();
 		vector<int> vdate;
@@ -572,7 +871,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 				vdate.push_back(itmp);
 			}
 		}
-		//æ•´å½¢,å»é™¤é•¿åº¦å°äºgapçš„é›¶çš„ç©ºæ´
+		//ÕûĞÎ,È¥³ı³¤¶ÈĞ¡ÓÚgapµÄÁãµÄ¶´
 		if (vdate.size()<=gap)
 			return;
 		for (int i=0;i<vdate.size()-gap;i++){
@@ -583,7 +882,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 				i = i+gap-1;
 			}
 		}
-		//è®°å½•ä¸Šä¸‹æ²¿
+		//¼ÇÂ¼ÉÏÏÂÑØ
 		for (int i=1;i<vdate.size();i++){
 			if (vdate[i-1] == 0 && vdate[i]>0)
 				vup.push_back(i);
@@ -591,7 +890,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 				vdown.push_back(i);
 		}
 	}
-	//è½®å»“æŸ”åŒ–
+	//ÂÖÀªÈá»¯
 	bool SmoothEdgeSingleChannel( Mat mInput,Mat &mOutput, double amount, double radius, uchar Threshold) 
 	{
 		if(mInput.empty())
@@ -620,19 +919,19 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 
 		return true;
 	}
-#pragma endregion å›¾åƒå¤„ç†
+#pragma endregion Í¼Ïñ´¦Àí
 
-#pragma region æ–‡ä»¶æ“ä½œ
-	//é€’å½’è¯»å–ç›®å½•ä¸‹å…¨éƒ¨æ–‡ä»¶
+#pragma region ÎÄ¼ş²Ù×÷
+	//µİ¹é¶ÁÈ¡Ä¿Â¼ÏÂÈ«²¿ÎÄ¼ş
 	void getFiles(string path, vector<string>& files,string flag){
-		//æ–‡ä»¶å¥æŸ„
+		//ÎÄ¼ş¾ä±ú
 		long   hFile   =   0;
-		//æ–‡ä»¶ä¿¡æ¯
+		//ÎÄ¼şĞÅÏ¢
 		struct _finddata_t fileinfo;
 		string p;
 		if((hFile = _findfirst(p.assign(path).append("\\*").c_str(),&fileinfo)) !=  -1){
 			do{
-				//å¦‚æœæ˜¯ç›®å½•,è¿­ä»£ä¹‹,å¦‚æœä¸æ˜¯,åŠ å…¥åˆ—è¡¨
+				//Èç¹ûÊÇÄ¿Â¼,µü´úÖ®,Èç¹û²»ÊÇ,¼ÓÈëÁĞ±í
 				if((fileinfo.attrib &  _A_SUBDIR)){
 					if(strcmp(fileinfo.name,".") != 0  &&  strcmp(fileinfo.name,"..") != 0 && flag=="r")
 						getFiles( p.assign(path).append("\\").append(fileinfo.name), files,flag );
@@ -644,17 +943,17 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 			_findclose(hFile);
 		}
 	}
-	//é€’å½’è¯»å–ç›®å½•ä¸‹å…¨éƒ¨å›¾ç‰‡
+	//µİ¹é¶ÁÈ¡Ä¿Â¼ÏÂÈ«²¿Í¼Æ¬
 	void getFiles(string path, vector<Mat>& files,string flag){
 		vector<string> fileNames;
 		getFiles(path,fileNames,flag);
 		for (int i=0;i<fileNames.size();i++){
 			Mat tmp = imread(fileNames[i]);
-			if (tmp.rows>0)//å¦‚æœæ˜¯å›¾ç‰‡
+			if (tmp.rows>0)//Èç¹ûÊÇÍ¼Æ¬
 				files.push_back(tmp);
 		}
 	}
-	//é€’å½’è¯»å–ç›®å½•ä¸‹å…¨éƒ¨å›¾ç‰‡å’Œåç§°
+	//µİ¹é¶ÁÈ¡Ä¿Â¼ÏÂÈ«²¿Í¼Æ¬ºÍÃû³Æ
 	void getFiles(string path, vector<pair<Mat,string>>& files,string flag){
 		vector<string> fileNames;
 		getFiles(path,fileNames,flag);
@@ -668,16 +967,16 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 			}
 		}
 	}
-	////åˆ é™¤ç›®å½•ä¸‹çš„å…¨éƒ¨æ–‡ä»¶
+	////É¾³ıÄ¿Â¼ÏÂµÄÈ«²¿ÎÄ¼ş
 	void deleteFiles(string path,string flag){
-		//æ–‡ä»¶å¥æŸ„
+		//ÎÄ¼ş¾ä±ú
 		long   hFile   =   0;
-		//æ–‡ä»¶ä¿¡æ¯
+		//ÎÄ¼şĞÅÏ¢
 		struct _finddata_t fileinfo;
 		string p;
 		if((hFile = _findfirst(p.assign(path).append("\\*").c_str(),&fileinfo)) !=  -1){
 			do{
-				//å¦‚æœæ˜¯ç›®å½•,è¿­ä»£ä¹‹,å¦‚æœä¸æ˜¯,åŠ å…¥åˆ—è¡¨
+				//Èç¹ûÊÇÄ¿Â¼,µü´úÖ®,Èç¹û²»ÊÇ,¼ÓÈëÁĞ±í
 				if((fileinfo.attrib &  _A_SUBDIR)){
 					if(strcmp(fileinfo.name,".") != 0  &&  strcmp(fileinfo.name,"..") != 0 && flag=="r")
 						deleteFiles(p.assign(path).append("\\").append(fileinfo.name).c_str(),flag );
@@ -689,7 +988,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 			_findclose(hFile);
 		}
 	}
-	//åˆ›å»ºæˆ–ç»­å†™ç›®å½•ä¸‹çš„csvæ–‡ä»¶,å¡«å†™â€œæ–‡ä»¶ä½ç½®-åˆ†ç±»â€å¯¹
+	//´´½¨»òĞøĞ´Ä¿Â¼ÏÂµÄcsvÎÄ¼ş,ÌîĞ´¡°ÎÄ¼şÎ»ÖÃ-·ÖÀà¡±¶Ô
 	int writeCsv(const string& filename,const vector<pair<string,string>>srcVect,char separator ){
 		ofstream file(filename.c_str(),ofstream::app);
 		if (!file)
@@ -699,7 +998,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		}
 		return srcVect.size();
 	}
-	//è¯»å–ç›®å½•ä¸‹çš„csvæ–‡ä»¶,è·å¾—â€œæ–‡ä»¶ä½ç½®-åˆ†ç±»â€å¯¹
+	//¶ÁÈ¡Ä¿Â¼ÏÂµÄcsvÎÄ¼ş,»ñµÃ¡°ÎÄ¼şÎ»ÖÃ-·ÖÀà¡±¶Ô
 	vector<pair<string,string>> readCsv(const string& filename, char separator) {
 		pair<string,string> apair;
 		string line, path, classlabel;
@@ -720,7 +1019,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		}
 		return retVect;
 	}
-	//è·å¾—iniæ–‡ä»¶ä¸­çš„å€¼
+	////»ñµÃiniÎÄ¼şÖĞµÄÖµ
 	 CString  GetInitString( CString Name1 ,CString Name2){
 		char c[100] ;
 		memset( c ,0 ,100) ;
@@ -732,10 +1031,10 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		csCfgFilePath += "\\Config" ;
 		BOOL br = GetPrivateProfileString(Name1,Name2 ,"0",c, 100 , csCfgFilePath) ;
 		CString rstr ;
-		rstr .Format("%s" , c) ;
+		rstr.Format("%s" , c) ;
 		return rstr ;
 	}
-	 //å†™å…¥inié—®ä»·ä¸­çš„å€¼
+	 //Ğ´ÈëiniÎÄ¼şÖĞµÄÖµ
 	 void WriteInitString( CString Name1 ,CString Name2 ,CString strvalue){
 		CString csCfgFilePath;
 		GetModuleFileName(NULL, csCfgFilePath.GetBufferSetLength(MAX_PATH+1), MAX_PATH); 
@@ -748,17 +1047,17 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 			TRACE("savewrong") ;
 	}
 
-	//è·å¾—å½“å‰ç›®å½•è·¯å¾„
-	static CString GetLocalPath(){
-		CString csCfgFilePath;
-		GetModuleFileName(NULL, csCfgFilePath.GetBufferSetLength(MAX_PATH+1), MAX_PATH); 
-		csCfgFilePath.ReleaseBuffer(); 
-		int nPos = csCfgFilePath.ReverseFind ('\\');
-		csCfgFilePath = csCfgFilePath.Left (nPos);
-		return csCfgFilePath;
-	}
+	////»ñµÃµ±Ç°Ä¿Â¼Â·¾¶
+	//static CString GetLocalPath(){
+	//	CString csCfgFilePath;
+	//	GetModuleFileName(NULL, csCfgFilePath.GetBufferSetLength(MAX_PATH+1), MAX_PATH); 
+	//	csCfgFilePath.ReleaseBuffer(); 
+	//	int nPos = csCfgFilePath.ReverseFind ('\\');
+	//	csCfgFilePath = csCfgFilePath.Left (nPos);
+	//	return csCfgFilePath;
+	//}
 
-	//è·å¾—.exeè·¯å¾„
+	//»ñµÃ.exeÂ·¾¶
 	static CString GetExePath()
 	{
 		CString strPath;
@@ -767,7 +1066,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		return strPath;
 	}
 
-	//å¼€æœºè‡ªåŠ¨è¿è¡Œ
+	//¿ª»ú×Ô¶¯ÔËĞĞ
 	static BOOL SetAutoRun(CString strPath,bool flag)
 	{
 		CString str;
@@ -780,7 +1079,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		{
 			_splitpath(strPath.GetBuffer(0),NULL,NULL,str.GetBufferSetLength(MAX_PATH+1),NULL);
 			strPath.ReleaseBuffer();
-			str.ReleaseBuffer();//stræ˜¯é”®çš„åå­—
+			str.ReleaseBuffer();//strÊÇ¼üµÄÃû×Ö
 			if (flag){
 				if(::RegSetValueEx( hRegKey,str,0,REG_SZ,(CONST BYTE *)strPath.GetBuffer(0),strPath.GetLength() ) != ERROR_SUCCESS)
 					bResult=FALSE;
@@ -797,10 +1096,10 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		return bResult;
 	}		
 
-#pragma endregion æ–‡ä»¶æ“ä½œ
+#pragma endregion ÎÄ¼ş²Ù×÷
 
-#pragma region å­—ç¬¦ä¸²æ“ä½œ
-	//stringæ›¿æ¢
+#pragma region ×Ö·û´®²Ù×÷
+	//stringÌæ»»
 	void string_replace(string & strBig, const string & strsrc, const string &strdst)
 	{
 		string::size_type pos=0;
@@ -813,7 +1112,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		}
 	}
 
-	//C++çš„spiltå‡½æ•°
+	//C++µÄspiltº¯Êı
 	void SplitString(const string& s, vector<string>& v, const string& c){
 		std::string::size_type pos1, pos2;
 		pos2 = s.find(c);
@@ -826,7 +1125,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		if(pos1 != s.length())
 			v.push_back(s.substr(pos1));
 	}
-	//! é€šè¿‡æ–‡ä»¶å¤¹åç§°è·å–æ–‡ä»¶åï¼Œä¸åŒ…æ‹¬åç¼€
+	//! Í¨¹ıÎÄ¼ş¼ĞÃû³Æ»ñÈ¡ÎÄ¼şÃû£¬²»°üÀ¨ºó×º
 	void getFileName(const string& filepath, string& name,string& lastname){
 		vector<string> spilt_path;
 		SplitString(filepath, spilt_path, "\\");
@@ -857,15 +1156,15 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		}
 	}
 
-#pragma endregion å­—ç¬¦ä¸²æ“ä½œ
+#pragma endregion ×Ö·û´®²Ù×÷
 
-#pragma region excelæ“ä½œ
+#pragma region excel²Ù×÷
 	//////////////////////////////////////////////////////////////////////////////
-	//åç§°ï¼šGetExcelDriver
-	//åŠŸèƒ½ï¼šè·å–ODBCä¸­Excelé©±åŠ¨
-	//ä½œè€…ï¼šå¾æ™¯å‘¨(jingzhou_xu@163.net)
-	//ç»„ç»‡ï¼šæœªæ¥å·¥ä½œå®¤(Future Studio)
-	//æ—¥æœŸï¼š2002.9.1
+	//Ãû³Æ£ºGetExcelDriver
+	//¹¦ÄÜ£º»ñÈ¡ODBCÖĞExcelÇı¶¯
+	//×÷Õß£ºĞì¾°ÖÜ(jingzhou_xu@163.net)
+	//×éÖ¯£ºÎ´À´¹¤×÷ÊÒ(Future Studio)
+	//ÈÕÆÚ£º2002.9.1
 	/////////////////////////////////////////////////////////////////////////////
 	CString GetExcelDriver()
 	{
@@ -875,16 +1174,16 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		char *pszBuf = szBuf;
 		CString sDriver;
 
-		// è·å–å·²å®‰è£…é©±åŠ¨çš„åç§°(æ¶µæ•°åœ¨odbcinst.hé‡Œ)
+		// »ñÈ¡ÒÑ°²×°Çı¶¯µÄÃû³Æ(º­ÊıÔÚodbcinst.hÀï)
 		if (!SQLGetInstalledDrivers(szBuf, cbBufMax, &cbBufOut))
 			return "";
 
-		// æ£€ç´¢å·²å®‰è£…çš„é©±åŠ¨æ˜¯å¦æœ‰Excel...
+		// ¼ìË÷ÒÑ°²×°µÄÇı¶¯ÊÇ·ñÓĞExcel...
 		do
 		{
 			if (strstr(pszBuf, "Excel") != 0)
 			{
-				//å‘ç° !
+				//·¢ÏÖ !
 				sDriver = CString(pszBuf);
 				break;
 			}
@@ -897,14 +1196,14 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 
 	///////////////////////////////////////////////////////////////////////////////
 	//	BOOL MakeSurePathExists( CString &Path,bool FilenameIncluded)
-	//	å‚æ•°ï¼š
-	//		Path				è·¯å¾„
-	//		FilenameIncluded	è·¯å¾„æ˜¯å¦åŒ…å«æ–‡ä»¶å
-	//	è¿”å›å€¼:
-	//		æ–‡ä»¶æ˜¯å¦å­˜åœ¨
-	//	è¯´æ˜:
-	//		åˆ¤æ–­Pathæ–‡ä»¶(FilenameIncluded=true)æ˜¯å¦å­˜åœ¨,å­˜åœ¨è¿”å›TUREï¼Œä¸å­˜åœ¨è¿”å›FALSE
-	//		è‡ªåŠ¨åˆ›å»ºç›®å½•
+	//	²ÎÊı£º
+	//		Path				Â·¾¶
+	//		FilenameIncluded	Â·¾¶ÊÇ·ñ°üº¬ÎÄ¼şÃû
+	//	·µ»ØÖµ:
+	//		ÎÄ¼şÊÇ·ñ´æÔÚ
+	//	ËµÃ÷:
+	//		ÅĞ¶ÏPathÎÄ¼ş(FilenameIncluded=true)ÊÇ·ñ´æÔÚ,´æÔÚ·µ»ØTURE£¬²»´æÔÚ·µ»ØFALSE
+	//		×Ô¶¯´´½¨Ä¿Â¼
 	//
 	///////////////////////////////////////////////////////////////////////////////
 	BOOL MakeSurePathExists( CString &Path,bool FilenameIncluded)
@@ -919,51 +1218,65 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 		return !_access(Path,0);
 	}
 
-	//è·å¾—é»˜è®¤çš„æ–‡ä»¶å
+	//»ñµÃÄ¬ÈÏµÄÎÄ¼şÃû
+	//2018Äê6ÔÂ26ÈÕ ½«ÆäÉı¼¶Îª¿ÉÒÔÊäÈëÂ·¾¶²ÎÊıµÄ
 	BOOL GetDefaultXlsFileName(CString& sExcelFile)
 	{
-		///é»˜è®¤æ–‡ä»¶åï¼šyyyymmddhhmmss.xls
+		/////Ä¬ÈÏÎÄ¼şÃû£ºyyyymmddhhmmss.xls
 		CString timeStr;
 		CTime day;
 		day=CTime::GetCurrentTime();
 		int filenameday,filenamemonth,filenameyear,filehour,filemin,filesec;
 		filenameday=day.GetDay();//dd
-		filenamemonth=day.GetMonth();//mmæœˆä»½
+		filenamemonth=day.GetMonth();//mmÔÂ·İ
 		filenameyear=day.GetYear();//yyyy
 		filehour=day.GetHour();//hh
-		filemin=day.GetMinute();//mmåˆ†é’Ÿ
+		filemin=day.GetMinute();//mm·ÖÖÓ
 		filesec=day.GetSecond();//ss
 		timeStr.Format("%04d%02d%02d%02d%02d%02d",filenameyear,filenamemonth,filenameday,filehour,filemin,filesec);
-		sExcelFile =  timeStr + ".xls"; //è·å–éšæœºæ—¶é—´çš„æ–‡ä»¶åç§°
-		//æ‰“å¼€é€‰æ‹©è·¯å¾„çª—å£
+		if (sExcelFile == "")
+		{
+			sExcelFile =  timeStr + ".xls"; //»ñÈ¡Ëæ»úÊ±¼äµÄÎÄ¼şÃû³Æ
+		}else{
+			sExcelFile = sExcelFile+".xls";
+		}
+		
+		//´ò¿ªÑ¡ÔñÂ·¾¶´°¿Ú
 		CString pathName; 
-		CString defaultDir = _T("C:\\outtest");
+		CString defaultDir = _T("C:\\system32");
 		CString fileName=sExcelFile;
-		CString szFilters= _T("xls(*.xls)");
+		CString szFilters= _T("xls(*.xls)|*.xls|*(*.*)|*.*||");
 		CFileDialog dlg(FALSE,defaultDir,fileName,OFN_HIDEREADONLY|OFN_READONLY,szFilters,NULL);
 		if(dlg.DoModal()==IDOK){
-			//è·å¾—ä¿å­˜ä½ç½®
+			//»ñµÃ±£´æÎ»ÖÃ
 			pathName = dlg.GetPathName();
 		}else{
 			return FALSE;
 		}
-
+		//2018Äê8ÔÂ8ÈÕ ×Ô¶¯Ìí¼Ó.xlsºó×º
+		if (pathName.GetLength()>4 )
+		{
+			if (pathName.Right(4)!=".xls")
+				pathName = pathName+".xls";
+		}else{
+			pathName = pathName+".xls";//·ÀÖ¹ÎŞ·¨È¡right
+		}
 		sExcelFile = pathName;
 		return TRUE;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////
 	//	void GetExcelDriver(CListCtrl* pList, CString strTitle)
-	//	å‚æ•°ï¼š
-	//		pList		éœ€è¦å¯¼å‡ºçš„Listæ§ä»¶æŒ‡é’ˆ
-	//		strTitle	å¯¼å‡ºçš„æ•°æ®è¡¨æ ‡é¢˜
-	//	è¯´æ˜:
-	//		å¯¼å‡ºCListCtrlæ§ä»¶çš„å…¨éƒ¨æ•°æ®åˆ°Excelæ–‡ä»¶ã€‚Excelæ–‡ä»¶åç”±ç”¨æˆ·é€šè¿‡â€œå¦å­˜ä¸ºâ€
-	//		å¯¹è¯æ¡†è¾“å…¥æŒ‡å®šã€‚åˆ›å»ºåä¸ºstrTitleçš„å·¥ä½œè¡¨ï¼Œå°†Listæ§ä»¶å†…çš„æ‰€æœ‰æ•°æ®ï¼ˆåŒ…æ‹¬
-	//		åˆ—åå’Œæ•°æ®é¡¹ï¼‰ä»¥æ–‡æœ¬çš„å½¢å¼ä¿å­˜åˆ°Excelå·¥ä½œè¡¨ä¸­ã€‚ä¿æŒè¡Œåˆ—å…³ç³»ã€‚
+	//	²ÎÊı£º
+	//		pList		ĞèÒªµ¼³öµÄList¿Ø¼şÖ¸Õë
+	//		strTitle	µ¼³öµÄÊı¾İ±í±êÌâ
+	//	ËµÃ÷:
+	//		µ¼³öCListCtrl¿Ø¼şµÄÈ«²¿Êı¾İµ½ExcelÎÄ¼ş¡£ExcelÎÄ¼şÃûÓÉÓÃ»§Í¨¹ı¡°Áí´æÎª¡±
+	//		¶Ô»°¿òÊäÈëÖ¸¶¨¡£´´½¨ÃûÎªstrTitleµÄ¹¤×÷±í£¬½«List¿Ø¼şÄÚµÄËùÓĞÊı¾İ£¨°üÀ¨
+	//		ÁĞÃûºÍÊı¾İÏî£©ÒÔÎÄ±¾µÄĞÎÊ½±£´æµ½Excel¹¤×÷±íÖĞ¡£±£³ÖĞĞÁĞ¹ØÏµ¡£
 	//	
 	//	edit by [r]@dotlive.cnblogs.com
-	//  2016å¹´8æœˆ12æ—¥ ä¿®æ”¹ä¸ºå¯ä»¥ä¿å­˜å¤šä¸ªè¡¨çš„æ¨¡å¼
+	//  2016Äê8ÔÂ12ÈÕ ĞŞ¸ÄÎª¿ÉÒÔ±£´æ¶à¸ö±íµÄÄ£Ê½
 	///////////////////////////////////////////////////////////////////////////////
 	CString ExportListToExcel(CString  sExcelFile,CListCtrl* pList, CString strTitle)
 	{
@@ -975,28 +1288,28 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 			CString sSql;
 			CString tableName = strTitle;
 
-			// æ£€ç´¢æ˜¯å¦å®‰è£…æœ‰Excelé©±åŠ¨ "Microsoft Excel Driver (*.xls)" 
+			// ¼ìË÷ÊÇ·ñ°²×°ÓĞExcelÇı¶¯ "Microsoft Excel Driver (*.xls)" 
 			CString sDriver;
 			sDriver = GetExcelDriver();
 			if (sDriver.IsEmpty())
 			{
-				// æ²¡æœ‰å‘ç°Excelé©±åŠ¨
-				AfxMessageBox("æ²¡æœ‰å®‰è£…Excel!\nè¯·å…ˆå®‰è£…Excelè½¯ä»¶æ‰èƒ½ä½¿ç”¨å¯¼å‡ºåŠŸèƒ½!");
+				// Ã»ÓĞ·¢ÏÖExcelÇı¶¯
+				AfxMessageBox("Ã»ÓĞ°²×°Excel!\nÇëÏÈ°²×°ExcelÈí¼ş²ÅÄÜÊ¹ÓÃµ¼³ö¹¦ÄÜ!");
 				return NULL;
 			}
 
-			///é»˜è®¤æ–‡ä»¶å
+			///Ä¬ÈÏÎÄ¼şÃû
 		/*	CString sExcelFile; 
 			if (!GetDefaultXlsFileName(sExcelFile))
 				return NULL;*/
 
-			// åˆ›å»ºè¿›è¡Œå­˜å–çš„å­—ç¬¦ä¸²
+			// ´´½¨½øĞĞ´æÈ¡µÄ×Ö·û´®
 			sSql.Format("DRIVER={%s};DSN='';FIRSTROWHASNAMES=1;READONLY=FALSE;CREATE_DB=\"%s\";DBQ=%s",sDriver, sExcelFile, sExcelFile);
 
-			// åˆ›å»ºæ•°æ®åº“ (æ—¢Excelè¡¨æ ¼æ–‡ä»¶)
+			// ´´½¨Êı¾İ¿â (¼ÈExcel±í¸ñÎÄ¼ş)
 			if( database.OpenEx(sSql,CDatabase::noOdbcDialog) )
 			{
-				// åˆ›å»ºè¡¨ç»“æ„
+				// ´´½¨±í½á¹¹
 				int i;
 				LVCOLUMN columnData;
 				CString columnName;
@@ -1026,7 +1339,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 				database.ExecuteSQL(sSql);
 
 
-				// æ’å…¥æ•°æ®é¡¹
+				// ²åÈëÊı¾İÏî
 				int nItemIndex;
 				for (nItemIndex=0;nItemIndex<pList->GetItemCount ();nItemIndex++){
 					strV = "";
@@ -1047,12 +1360,12 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 
 			}      
 
-			// å…³é—­æ•°æ®åº“
+			// ¹Ø±ÕÊı¾İ¿â
 			database.Close();
 			return sExcelFile;
 		}
 	}
-	//2ä¸ªdatesheetçš„æ¨¡å¼
+	//2¸ödatesheetµÄÄ£Ê½
 	CString ExportListToExcel(CListCtrl* pList, CString strTitle,CListCtrl* pList2,CString strTitle2)
 	{
 		CString warningStr;
@@ -1064,26 +1377,26 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 			CString tableName = strTitle;
 			CString tableName2 = strTitle2;
 
-			// æ£€ç´¢æ˜¯å¦å®‰è£…æœ‰Excelé©±åŠ¨ "Microsoft Excel Driver (*.xls)" 
+			// ¼ìË÷ÊÇ·ñ°²×°ÓĞExcelÇı¶¯ "Microsoft Excel Driver (*.xls)" 
 			sDriver = GetExcelDriver();
 			if (sDriver.IsEmpty())
 			{
-				// æ²¡æœ‰å‘ç°Excelé©±åŠ¨
-				AfxMessageBox("æ²¡æœ‰å®‰è£…Excel!\nè¯·å…ˆå®‰è£…Excelè½¯ä»¶æ‰èƒ½ä½¿ç”¨å¯¼å‡ºåŠŸèƒ½!");
+				// Ã»ÓĞ·¢ÏÖExcelÇı¶¯
+				AfxMessageBox("Ã»ÓĞ°²×°Excel!\nÇëÏÈ°²×°ExcelÈí¼ş²ÅÄÜÊ¹ÓÃµ¼³ö¹¦ÄÜ!");
 				return NULL;
 			}
 
-			///é»˜è®¤æ–‡ä»¶å
+			///Ä¬ÈÏÎÄ¼şÃû
 			if (!GetDefaultXlsFileName(sExcelFile))
 				return NULL;
 
-			// åˆ›å»ºè¿›è¡Œå­˜å–çš„å­—ç¬¦ä¸²
+			// ´´½¨½øĞĞ´æÈ¡µÄ×Ö·û´®
 			sSql.Format("DRIVER={%s};DSN='';FIRSTROWHASNAMES=1;READONLY=FALSE;CREATE_DB=\"%s\";DBQ=%s",sDriver, sExcelFile, sExcelFile);
 
-			// åˆ›å»ºæ•°æ®åº“ (æ—¢Excelè¡¨æ ¼æ–‡ä»¶)
+			// ´´½¨Êı¾İ¿â (¼ÈExcel±í¸ñÎÄ¼ş)
 			if( database.OpenEx(sSql,CDatabase::noOdbcDialog) )
 			{
-				// åˆ›å»ºè¡¨ç»“æ„1
+				// ´´½¨±í½á¹¹1
 				int i;
 				LVCOLUMN columnData;
 				LVCOLUMN columnData2;
@@ -1101,7 +1414,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 				columnData2.mask = LVCF_TEXT;
 				columnData2.cchTextMax =100;
 				columnData2.pszText = columnName2.GetBuffer (100);
-				// æ’å…¥æ•°æ®é¡¹1
+				// ²åÈëÊı¾İÏî1
 				for(i=0;pList->GetColumn(i,&columnData);i++)
 				{
 					if (i!=0)
@@ -1136,7 +1449,7 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 						+" VALUES("+ strV + ")";
 					database.ExecuteSQL(sSql);
 				}
-				//æ’å…¥æ•°æ®é¡¹2
+				//²åÈëÊı¾İÏî2
 				sSql = "";
 				strH="";
 				int columnNum2 = 0;
@@ -1174,14 +1487,14 @@ Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2){
 					database.ExecuteSQL(sSql);
 				}
 			}      
-			// å…³é—­æ•°æ®åº“
+			// ¹Ø±ÕÊı¾İ¿â
 			database.Close();
 
-			warningStr.Format("å¯¼å‡ºæ–‡ä»¶ä¿å­˜äº%s!",sExcelFile);
+			warningStr.Format("µ¼³öÎÄ¼ş±£´æÓÚ%s!",sExcelFile);
 			AfxMessageBox(warningStr);
 			return sExcelFile;
 		}
 	}
-#pragma endregion excelæ“ä½œ
+#pragma endregion excel²Ù×÷
 
 }

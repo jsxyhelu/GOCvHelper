@@ -1,8 +1,8 @@
-	//åç§°ï¼šGOCVHelper.h
-	//åŠŸèƒ½ï¼šå›¾åƒå¤„ç†å’ŒMFCå¢å¼º
-	//ä½œè€…ï¼šjsxyhelu(1755311380@qq.com http://jsxyhelu.cnblogs.com)
-	//ç»„ç»‡ï¼šGREENOPEN
-	//æ—¥æœŸï¼š2017-06-28
+	//Ãû³Æ£ºGOCVHelper0.8.cpp
+	//¹¦ÄÜ£ºÍ¼Ïñ´¦ÀíºÍMFCÔöÇ¿
+	//×÷Õß£ºjsxyhelu(1755311380@qq.com http://jsxyhelu.cnblogs.com)
+	//×éÖ¯£ºGREENOPEN
+	//ÈÕÆÚ£º2018-10-6
 	#include "stdafx.h"
 	#include <windows.h>
 	#include <iostream>
@@ -18,20 +18,21 @@
 
 	#define  DIRECTION_X 0
 	#define  DIRECTION_Y 1
-	//è°ƒç”¨ç®—æ³•åº“è¯·åœ¨Opencvå’ŒMfcæ­£ç¡®é…ç½®çš„ç¯å¢ƒä¸‹ã€‚
-	//å¹¶ä¸”é…ç½® é¡¹ç›®-å±æ€§-é…ç½®å±æ€§-å¸¸è§„-å­—ç¬¦é›† è®¾ç½®ä¸º ä½¿ç”¨å¤šå­—èŠ‚å­—ç¬¦é›†
-	//å’Œ é¡¹ç›®-å±æ€§-é…ç½®å±æ€§-c/c++-é¢„å¤„ç†å™¨-é¢„å¤„ç†å™¨å®šä¹‰ åŠ å…¥ _CRT_SECURE_NO_WARNINGS
+	#define  VP  vector<Point>  //ÓÃVP·ûºÅ´úÌæ vector<point>
+	//µ÷ÓÃËã·¨¿âÇëÔÚOpencvºÍMfcÕıÈ·ÅäÖÃµÄ»·¾³ÏÂ¡£
+	//²¢ÇÒÅäÖÃ ÏîÄ¿-ÊôĞÔ-ÅäÖÃÊôĞÔ-³£¹æ-×Ö·û¼¯ ÉèÖÃÎª Ê¹ÓÃ¶à×Ö½Ú×Ö·û¼¯
+	//ºÍ ÏîÄ¿-ÊôĞÔ-ÅäÖÃÊôĞÔ-c/c++-Ô¤´¦ÀíÆ÷-Ô¤´¦ÀíÆ÷¶¨Òå ¼ÓÈë _CRT_SECURE_NO_WARNINGS
 	namespace GO{
-		//è¯»å–ç°åº¦æˆ–å½©è‰²å›¾ç‰‡åˆ°ç°åº¦
+		//¶ÁÈ¡»Ò¶È»ò²ÊÉ«Í¼Æ¬µ½»Ò¶È
 		Mat imread2gray(string path);
-		//å¸¦æœ‰ä¸Šä¸‹é™çš„threshold
+		//´øÓĞÉÏÏÂÏŞµÄthreshold
 		Mat threshold2(Mat src,int minvalue,int maxvalue);
-		//è‡ªé€‚åº”é—¨é™çš„cannyç®—æ³• 
+		//×ÔÊÊÓ¦ÃÅÏŞµÄcannyËã·¨ 
 		Mat canny2(Mat src);
 		void AdaptiveFindThreshold( Mat src,double *low,double *high,int aperture_size=3);
 		void _AdaptiveFindThreshold(CvMat *dx, CvMat *dy, double *low, double *high);
-		//å¡«å……å­”æ´
-		/*ä½¿ç”¨ä¾‹å­
+		//Ìî³ä¿×¶´
+		/*Ê¹ÓÃÀı×Ó
 		Mat src = imread2gray("E:\\sandbox\\pcb.png");
 		Mat dst ;
 		threshold(src,dst,100,255,THRESH_BINARY);
@@ -42,18 +43,18 @@
 		Mat fillHoles(Mat src);
 		float getWhiteRate(Mat src);
 		Mat getInnerHoles(Mat src);
-		//é¡¶å¸½å»å…‰å·®,radiusä¸ºæ¨¡æ¿åŠå¾„
+		//¶¥Ã±È¥¹â²î,radiusÎªÄ£°å°ë¾¶
 		Mat moveLightDiff(Mat src,int radius = 40);
-		//å°† DEPTH_8Uå‹äºŒå€¼å›¾åƒè¿›è¡Œç»†åŒ–  ç»å…¸çš„Zhangå¹¶è¡Œå¿«é€Ÿç»†åŒ–ç®—æ³•
+		//½« DEPTH_8UĞÍ¶şÖµÍ¼Ïñ½øĞĞÏ¸»¯  ¾­µäµÄZhang²¢ĞĞ¿ìËÙÏ¸»¯Ëã·¨
 		void thin(const Mat &src, Mat &dst, const int iterations=100);
-		//ä½¿å¾—rectåŒºåŸŸåŠé€æ˜
+		//Ê¹µÃrectÇøÓò°ëÍ¸Ã÷
 		Mat translucence(Mat src,Rect rect,int idepth = 90);
-		//ä½¿å¾—rectåŒºåŸŸæ‰“ä¸Šé©¬èµ›å…‹
+		//Ê¹µÃrectÇøÓò´òÉÏÂíÈü¿Ë
 		Mat mosaic(Mat src,Rect rect,int W = 18,int H = 18);
-		//åŸºäºé¢œè‰²ç›´æ–¹å›¾çš„è·ç¦»è®¡ç®—
+		//»ùÓÚÑÕÉ«Ö±·½Í¼µÄ¾àÀë¼ÆËã
 		double GetHsVDistance(Mat src_base,Mat src_test1);
-		/*ä½¿ç”¨æ–¹æ³•
-		//é¦–å…ˆåšç°åº¦çš„mix
+		/*Ê¹ÓÃ·½·¨
+		//Ê×ÏÈ×ö»Ò¶ÈµÄmix
 		Mat src = imread("E:\\sandbox\\lena.jpg");
 		Mat mask = imread("E:\\sandbox\\star.png");
 		Mat maskF(src.size(),CV_32FC3);
@@ -64,44 +65,46 @@
 		srcF = srcF /255;
 		maskF = maskF/255;
 		Mat dst(srcF);
-		//æ­£ç‰‡å åº•
+		//ÕıÆ¬µşµ×
 		Multiply(srcF,maskF,dstF);
 		dstF = dstF *255;
 		dstF.convertTo(dst,CV_8UC3);
-		imshow("æ­£ç‰‡å åº•.jpg",dst);
-		// Color_Burn é¢œè‰²åŠ æ·±
+		imshow("ÕıÆ¬µşµ×.jpg",dst);
+		// Color_Burn ÑÕÉ«¼ÓÉî
 		Color_Burn(srcF,maskF,dstF);
 		dstF = dstF *255;
 		dstF.convertTo(dst,CV_8UC3);
-		imshow("é¢œè‰²åŠ æ·±.jpg",dst);
-		// çº¿æ€§å¢å¼º
+		imshow("ÑÕÉ«¼ÓÉî.jpg",dst);
+		// ÏßĞÔÔöÇ¿
 		Linear_Burn(srcF,maskF,dstF);
 		dstF = dstF *255;
 		dstF.convertTo(dst,CV_8UC3);
-		imshow("çº¿æ€§å¢å¼º.jpg",dst);
+		imshow("ÏßĞÔÔöÇ¿.jpg",dst);
 		waitKey();*/
-		// Multiply æ­£ç‰‡å åº•
+		// Multiply ÕıÆ¬µşµ×
 		void Multiply(Mat& src1, Mat& src2, Mat& dst);
-		// Color_Burn é¢œè‰²åŠ æ·±
+		// Color_Burn ÑÕÉ«¼ÓÉî
 		void Color_Burn(Mat& src1, Mat& src2, Mat& dst);
-		// çº¿æ€§å¢å¼º
+		// ÏßĞÔÔöÇ¿
 		void Linear_Burn(Mat& src1, Mat& src2, Mat& dst);
 		//----------------------------------------------------------------------------------------------------------------------------------------//
-		//ä½¿ç”¨æ–¹æ³•    ACE(src);
-		//ç‚¹ä¹˜æ³• elementWiseMultiplication
+		//Ê¹ÓÃ·½·¨    ACE(src);
+		//µã³Ë·¨ elementWiseMultiplication
 		Mat EWM(Mat m1,Mat m2);
-		//å›¾åƒå±€éƒ¨å¯¹æ¯”åº¦å¢å¼ºç®—æ³•
+		//Í¼Ïñ¾Ö²¿¶Ô±È¶ÈÔöÇ¿Ëã·¨
 		Mat ACE(Mat src,int C = 4,int n=20,int MaxCG = 5);
-		//LocalNormalizationç®—æ³•
+		//LocalNormalizationËã·¨
 		Mat LocalNormalization(Mat float_gray,float sigma1,float sigma2);
 		//----------------------------------------------------------------------------------------------------------------------------------------//
-		//å¯»æ‰¾æœ€å¤§çš„è½®å»“
+		//Ñ°ÕÒ×î´óµÄÂÖÀª
 		VP FindBigestContour(Mat src);
-		//å¯»æ‰¾å¹¶ç»˜åˆ¶å‡ºå½©è‰²è”é€šåŒºåŸŸ
+		//Ñ°ÕÒµÚn¸ö´óÂÖÀª
+		VP FindnthContour(Mat src,int ith );
+		//Ñ°ÕÒ²¢»æÖÆ³ö²ÊÉ«ÁªÍ¨ÇøÓò
 		vector<VP> connection2(Mat src,Mat& draw);
 		vector<VP> connection2(Mat src);
-		//æ ¹æ®è½®å»“çš„é¢ç§¯å¤§å°è¿›è¡Œé€‰æ‹©
-		/*ä½¿ç”¨æ–¹æ³•
+		//¸ù¾İÂÖÀªµÄÃæ»ı´óĞ¡½øĞĞÑ¡Ôñ
+		/*Ê¹ÓÃ·½·¨
 		Mat src = imread2gray("E:\\sandbox\\connection.png");
 		Mat dst;
 		vector<VP> contours;
@@ -115,16 +118,27 @@
 		*/
 		vector<VP>  selectShapeArea(Mat src,Mat& draw,vector<VP> contours,int minvalue,int maxvalue);
 		vector<VP>  selectShapeArea(vector<VP> contours,int minvalue,int maxvalue);
-		//æ ¹æ®è½®å»“çš„åœ†çš„ç‰¹æ€§è¿›è¡Œé€‰æ‹©
-		vector<VP>  selectShapeArea(Mat src,Mat& draw,vector<VP> contours,int minvalue,int maxvalue);
-		vector<VP>  selectShapeArea(vector<VP> contours,int minvalue,int maxvalue);
-		//è®¡ç®—è½®å»“çš„åœ†çš„ç‰¹æ€§
 		float calculateCircularity(VP contour);
-		//è¿”å›ä¸¤ç‚¹ä¹‹é—´çš„è·ç¦»
+		vector<VP> selectShapeCircularity(vector<VP> contours,float minvalue,float maxvalue);
+		vector<VP> selectShapeCircularity(Mat src,Mat& draw,vector<VP> contours,float minvalue,float maxvalue);
+
+
+		//·µ»ØÁ½µãÖ®¼äµÄ¾àÀë
 		float getDistance(Point2f f1,Point2f f2);
-		//æŠ•å½±åˆ°xæˆ–Yè½´ä¸Š,ä¸Šæ³¢å½¢ä¸ºvup,ä¸‹æ³¢å½¢ä¸ºvdown,gapä¸ºè¯¯å·®é—´éš”
+		//·µ»Øµãµ½Ö±Ïß£¨Ïß¶Î£©µÄ¾àÀë
+		float GetPointLineDistance(Point2f pointInput,Point2f pa,Point2f pb,Point2f& pointOut);
+		//¸ù¾İpca·½·¨£¬·µ»ØÂÖÀªµÄ½Ç¶È
+		double getOrientation(vector<Point> &pts, Mat &img);
+		//¸ù¾İÖĞÏß½«ÂÖÀª·ÖÎª2¸ö²¿·Ö
+		//²ÎÊı£ºpts ÂÖÀª£»pa pb ÖĞÏßÏß¶Î¶Ëµã£»p1 p2 ·ÖÎªÁ½±ßºó×îÔ¶2µã£»lenght1,length2 ¶ÔÓ¦¾àÀë£»img ÓÃÓÚ»æÍ¼
+		//·µ»Ø ÊÇ·ñ·Ö¸î³É¹¦
+		bool SplitContoursByMiddleLine(vector<Point> &pts,Mat &img,Point pa,Point pb,Point& p1,float& length1,Point& p2,float& length2);
+		//»ñµÃÕæÊµµÄ³¤¿í,·µ»ØÖµÎªfalseµÄ»°´ú±íÊ¶±ğ²»³É¹¦
+		bool getRealWidthHeight(vector<Point> &pts,vector<Point> &resultPts, Mat &img,float& flong,float& fshort);
+
+		//Í¶Ó°µ½x»òYÖáÉÏ,ÉÏ²¨ĞÎÎªvup,ÏÂ²¨ĞÎÎªvdown,gapÎªÎó²î¼ä¸ô
 		void projection2(Mat src,vector<int>& vup,vector<int>& vdown,int direction = DIRECTION_X,int gap = 10);
-		//è½®å»“æŸ”å’Œ
+		//ÂÖÀªÈáºÍ
 		/*
 		int main(int argc, char* argv[])
 		{
@@ -140,30 +154,39 @@
 		*/
 		bool SmoothEdgeSingleChannel( Mat mInput,Mat &mOutput, double amount, double radius, uchar Threshold) ;
 		//----------------------------------------------------------------------------------------------------------------------------------------//
-		//é€’å½’è¯»å–ç›®å½•ä¸‹å…¨éƒ¨æ–‡ä»¶
-		void getFiles(string path, vector<string>& files,string flag ="r"/*å¦‚æœä¸æƒ³é€’å½’è¿™é‡Œä¸å†™rå°±å¯ä»¥*/);
-		//é€’å½’è¯»å–ç›®å½•ä¸‹å…¨éƒ¨å›¾ç‰‡
+		//µİ¹é¶ÁÈ¡Ä¿Â¼ÏÂÈ«²¿ÎÄ¼ş
+		void getFiles(string path, vector<string>& files,string flag ="r"/*Èç¹û²»Ïëµİ¹éÕâÀï²»Ğ´r¾Í¿ÉÒÔ*/);
+		//µİ¹é¶ÁÈ¡Ä¿Â¼ÏÂÈ«²¿Í¼Æ¬
 		void getFiles(string path, vector<Mat>& files,string flag = "r");
-		//é€’å½’è¯»å–ç›®å½•ä¸‹å…¨éƒ¨å›¾ç‰‡å’Œåç§°
+		//µİ¹é¶ÁÈ¡Ä¿Â¼ÏÂÈ«²¿Í¼Æ¬ºÍÃû³Æ
 		void getFiles(string path, vector<pair<Mat,string>>& files,string flag="r");
-		//åˆ é™¤ç›®å½•ä¸‹çš„å…¨éƒ¨æ–‡ä»¶
+		//É¾³ıÄ¿Â¼ÏÂµÄÈ«²¿ÎÄ¼ş
 		void deleteFiles(string path,string flag = "r");
-		//åˆ›å»ºæˆ–ç»­å†™ç›®å½•ä¸‹çš„csvæ–‡ä»¶,å¡«å†™â€œæ–‡ä»¶ä½ç½®-åˆ†ç±»â€å¯¹
+		//´´½¨»òĞøĞ´Ä¿Â¼ÏÂµÄcsvÎÄ¼ş,ÌîĞ´¡°ÎÄ¼şÎ»ÖÃ-·ÖÀà¡±¶Ô
 		int writeCsv(const string& filename,const vector<pair<string,string>>srcVect,char separator=';');
-		//è¯»å–ç›®å½•ä¸‹çš„csvæ–‡ä»¶,è·å¾—â€œæ–‡ä»¶ä½ç½®-åˆ†ç±»â€å¯¹
+		//¶ÁÈ¡Ä¿Â¼ÏÂµÄcsvÎÄ¼ş,»ñµÃ¡°ÎÄ¼şÎ»ÖÃ-·ÖÀà¡±¶Ô
 		vector<pair<string,string>> readCsv(const string& filename, char separator = ';') ;
+		//»ñµÃµ±Ç°Ä¿Â¼Ãû³Æ
+		static CString GetLocalPath(){
+			CString csCfgFilePath;
+			GetModuleFileName(NULL, csCfgFilePath.GetBufferSetLength(MAX_PATH+1), MAX_PATH); 
+			csCfgFilePath.ReleaseBuffer(); 
+			int nPos = csCfgFilePath.ReverseFind ('\\');
+			csCfgFilePath = csCfgFilePath.Left (nPos);
+			return csCfgFilePath;
+		}
 		//----------------------------------------------------------------------------------------------------------------------------------------//
-		//C++çš„spiltå‡½æ•°
+		//C++µÄspiltº¯Êı
 		void SplitString(const string& s, vector<string>& v, const string& c);
-		//! é€šè¿‡æ–‡ä»¶å¤¹åç§°è·å–æ–‡ä»¶åï¼Œä¸åŒ…æ‹¬åç¼€
+		//! Í¨¹ıÎÄ¼ş¼ĞÃû³Æ»ñÈ¡ÎÄ¼şÃû£¬²»°üÀ¨ºó×º
 		void getFileName(const string& filepath, string& name,string& lastname);
 		void getFileName(const string& filepath, string& name);
 		//-----------------------------------------------------------------------------------------------------------------------------------------//
-		//ini æ“ä½œ
+		//ini ²Ù×÷
 		CString  GetInitString( CString Name1 ,CString Name2);
 		void WriteInitString( CString Name1 ,CString Name2 ,CString strvalue);
 		//-----------------------------------------------------------------------------------------------------------------------------------------//
-		//excelæ“ä½œ
+		//excel²Ù×÷
 		CString ExportListToExcel(CString  sExcelFile,CListCtrl* pList, CString strTitle);
 		BOOL GetDefaultXlsFileName(CString& sExcelFile);
 	}
